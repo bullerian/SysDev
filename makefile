@@ -14,7 +14,7 @@ DESTDIR 			= /usr/local/bin
 
 vpath %.c src:src/m1:src/m2
 
-.PHONY: all
+.PHONY: all install unistall install-strip ASM clean
 all: $(TARGET) ASM
 
 $(TARGET) : $(OBJS)
@@ -23,26 +23,21 @@ $(TARGET) : $(OBJS)
 %.o: %.c
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
-.PHONY: install
 install : $(TARGET)
 	install $(BIN_DIR)/$(TARGET) $(DESTDIR)
 
-.PHONY: unistall
 unistall :
 	$(RM) $(DESTDIR)/$(TARGET)
 
-.PHONY: install-strip
 install-strip :
 	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' \
 				  install
 
-.PHONY: ASM
 ASM : $(ASMS)
 
 %.s: %.c
 	$(PREPROCESS.S) $< $(OUTPUT_OPTION)
 
-.PHONY: clean
 clean:
 	$(RM) $(BIN_DIR)/*
 
